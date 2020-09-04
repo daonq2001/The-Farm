@@ -58,3 +58,9 @@ sysinfo.txt
 # Crashlytics generated file
 crashlytics-build.properties
 
+/The Farm/Library
+/The Farm/Logs
+/The Farm/obj/Debug
+/The Farm/Packages
+/The Farm/ProjectSettings
+/The Farm/Temp
