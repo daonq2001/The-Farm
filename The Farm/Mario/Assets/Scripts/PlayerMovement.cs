@@ -1,13 +1,10 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEditor;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
     private Rigidbody2D rb;
     private Animator anim;
-    private bool left, right, jump;
+    private bool left, right, jump, ground;
 
     public float speed;
     public float jumpForce;
@@ -31,10 +28,11 @@ public class PlayerMovement : MonoBehaviour
             rb.velocity = new Vector2(speed, 0f);
             anim.SetFloat("Speed", 1f);
             transform.localScale = new Vector3(1f, 1f, 1f);
-        } else if(jump)
+        } else if(jump && ground)
         {
             rb.velocity = new Vector2(0f, jumpForce);
             anim.SetBool("Jump", true);
+            ground = false;
         }
     }
 
@@ -43,6 +41,11 @@ public class PlayerMovement : MonoBehaviour
         if (collision.gameObject.CompareTag("Water"))
         {
             anim.SetBool("Death", true);
+            gameObject.GetComponent<Player>().Death = true;
+        }
+        if (collision.gameObject.CompareTag("Ground"))
+        {
+            ground = true;
         }
     }
 

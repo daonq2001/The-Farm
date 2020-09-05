@@ -7,13 +7,13 @@ public class CameraMove : MonoBehaviour
     public GameObject cameras;
     private Vector3 offset;
     private float max;
+
     void Start()
     {
         offset = cameras.transform.position;
     }
-
     
-    void Update()
+    void LateUpdate()
     {
         max = cameras.transform.position.x;
         offset.x = transform.position.x;
@@ -21,6 +21,7 @@ public class CameraMove : MonoBehaviour
         {
             offset.x = max;
         }
+        transform.position = new Vector3(offset.x, transform.position.y, transform.position.z);
         cameras.transform.position = offset;
     }
 }
