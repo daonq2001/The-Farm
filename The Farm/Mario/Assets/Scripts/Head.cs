@@ -11,7 +11,7 @@ public class Head : MonoBehaviour
         if (collision.gameObject.CompareTag("Player"))
         {
             enemy.die = true;
-            player.score += 20;
+            player.score += 100;
         }
     }
 }

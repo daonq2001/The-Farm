@@ -23645,8 +23645,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 36d02350548acde43bac2fd2ee72c428, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 5
-  jumpForce: 7
+  anim: {fileID: 0}
+  speed: 3
+  jumpForce: 5
 --- !u!114 &1991443958
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -23673,6 +23674,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   coin: {fileID: 8300000, guid: e40477ecf32419548adbc07bd5b72039, type: 3}
+  audioSource: {fileID: 1991443960}
   winPannel: {fileID: 1157116338}
   pannelLost: {fileID: 2120302837}
   pannelPause: {fileID: 433003747}
@@ -23701,7 +23703,7 @@ AudioSource:
   m_PlayOnAwake: 1
   m_Volume: 1
   m_Pitch: 1
-  Loop: 1
+  Loop: 0
   Mute: 0
   Spatialize: 0
   SpatializePostEffects: 0

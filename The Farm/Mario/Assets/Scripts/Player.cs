@@ -1,12 +1,14 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class Player : MonoBehaviour
 {
+    private PlayerMovement playerMovement;
 
     public AudioClip coin;
-    private AudioSource audioSource;
+    public AudioSource audioSource;
 
     public GameObject winPannel;
     public GameObject pannelLost;
@@ -30,7 +32,7 @@ public class Player : MonoBehaviour
 
     private void Start()
     {
-        audioSource = GetComponent<AudioSource>();
+        playerMovement = GetComponent<PlayerMovement>();
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -55,21 +57,27 @@ public class Player : MonoBehaviour
         CoinsText.text = "Coins:" + "\n" + coins;
         if(MaxTime <= 0f)
         {
-            pannelLost.SetActive(true);
+            StartCoroutine(DelayDeath());
             textDied.text = "TIME UP!";
-            SetUp(false);
         }
         if (Death)
         {
-            pannelLost.SetActive(true);
+            StartCoroutine(DelayDeath());
             textDied.text = "YOU DIED!";
-            SetUp(false);
         }
         if (win)
         {
             winPannel.SetActive(true);
             SetUp(false);
         }
+    }
+
+    IEnumerator DelayDeath()
+    {
+        playerMovement.anim.SetBool("Death", true);
+        yield return new WaitForSeconds(2f);
+        pannelLost.SetActive(true);
+        SetUp(false);
     }
 
     

@@ -4,37 +4,44 @@ using UnityEngine;
 public class PlayerMovement : MonoBehaviour
 {
     private Rigidbody2D rb;
-    private Animator anim;
+    [HideInInspector]
+    public Animator anim;
     private bool left, right, jump, ground;
+    private float maxSpeed = 3f;
 
     public float speed;
     public float jumpForce;
-
-
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
         anim = GetComponent<Animator>();
     }
-
     
     void FixedUpdate()
     {
-        if(left)
+        if(rb.velocity.x > maxSpeed)
         {
-            rb.gravityScale = 10f;
-            rb.velocity = new Vector2(-speed, 0f);
+            rb.velocity = new Vector2(maxSpeed, rb.position.y);
+        }
+        if(rb.velocity.x < -maxSpeed)
+        {
+            rb.velocity = new Vector2(-maxSpeed, rb.position.y);
+        }
+        if (left)
+        {
+            rb.AddForce(new Vector2(-speed, 0), ForceMode2D.Impulse);
             anim.SetFloat("Speed", 1f);
             transform.localScale = new Vector3(-1f, 1f, 1f);
-        } else if(right)
+        }
+        else if (right)
         {
-            rb.gravityScale = 10f;
-            rb.velocity = new Vector2(speed, 0f);
+            rb.AddForce(new Vector2(speed, 0), ForceMode2D.Impulse);
             anim.SetFloat("Speed", 1f);
             transform.localScale = new Vector3(1f, 1f, 1f);
-        } else if(jump && ground)
+        }
+        else if (jump && ground)
         {
-            rb.velocity = new Vector2(0f, jumpForce);
+            rb.AddForce(new Vector2(0, jumpForce), ForceMode2D.Impulse);
             anim.SetBool("Jump", true);
             ground = false;
         }
@@ -53,7 +60,6 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-    
     public void Left()
     {
         left = true;
@@ -62,7 +68,6 @@ public class PlayerMovement : MonoBehaviour
     public void LeftUp()
     {
         left = false;
-        rb.velocity = Vector2.zero;
         anim.SetFloat("Speed", 0f);
     }
 
@@ -74,7 +79,6 @@ public class PlayerMovement : MonoBehaviour
     public void RightUp()
     {
         right = false;
-        rb.velocity = Vector2.zero;
         anim.SetFloat("Speed", 0f);
     }
 
@@ -88,17 +92,15 @@ public class PlayerMovement : MonoBehaviour
         rb.gravityScale = 0f;
         jump = true;
         yield return new WaitForSeconds(0.4f);
-        rb.gravityScale = 10f;
+        rb.gravityScale = 5f;
         jump = false;
-        rb.velocity = Vector2.zero;
         anim.SetBool("Jump", false);
     }
 
     public void JumpUp()
     {
-        rb.gravityScale = 10f;
+        rb.gravityScale = 5f;
         jump = false;
-        rb.velocity = Vector2.zero;
         anim.SetBool("Jump", false);
     }
 }
