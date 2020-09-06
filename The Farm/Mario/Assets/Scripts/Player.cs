@@ -8,6 +8,7 @@ public class Player : MonoBehaviour
     public AudioClip coin;
     private AudioSource audioSource;
 
+    public GameObject winPannel;
     public GameObject pannelLost;
     public GameObject pannelPause;
     public GameObject LeftBtn;
@@ -25,6 +26,7 @@ public class Player : MonoBehaviour
     public int score;
     [HideInInspector]
     public int coins;
+    private bool win = false;
 
     private void Start()
     {
@@ -38,6 +40,10 @@ public class Player : MonoBehaviour
             audioSource.PlayOneShot(coin);
             coins += 10;
             Destroy(collision.gameObject);
+        }
+        if (collision.gameObject.CompareTag("flag"))
+        {
+            win = true;
         }
     }
     
@@ -57,6 +63,11 @@ public class Player : MonoBehaviour
         {
             pannelLost.SetActive(true);
             textDied.text = "YOU DIED!";
+            SetUp(false);
+        }
+        if (win)
+        {
+            winPannel.SetActive(true);
             SetUp(false);
         }
     }
